@@ -1,11 +1,11 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Products from './Components/Products/Products';
-import ProductsPage from './Components/ProductsPage/ProductsPage';
+// import ProductsPage from './Components/ProductsPage/ProductsPage';
 
 function App() {
   return (
     <div className="App">
-      <h1>hello world</h1>
       <Products></Products>
       {/* <ProductsPage></ProductsPage> */}
     </div>
