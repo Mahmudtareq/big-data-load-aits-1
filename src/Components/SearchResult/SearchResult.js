@@ -1,11 +1,9 @@
 import React from 'react';
-import './ProductsPage.css';
 import { Col, Container, Row,Card  } from 'react-bootstrap';
 import { FixedSizeGrid as Grid } from 'react-window';
 
-const ProductsPage = ({ itemList}) => {
-    // console.log(itemList);
-const { country, thumbnailUrl, url, des, first_name ,email} = itemList;
+const SearchResult = ({employee}) => {
+    const { country, thumbnailUrl, url, des, first_name ,email} = employee;
   const Cell = ({ style }) => (
             <Row className='' xs={1} md={2}>
               <Col className=''>
@@ -23,10 +21,9 @@ const { country, thumbnailUrl, url, des, first_name ,email} = itemList;
               </Col>
     </Row>
 );
-    
     return (
         <div>
-        <Container className=''> 
+            <Container className=''> 
                 
                 <Container fluid={true} className="">
                <Grid
@@ -47,4 +44,4 @@ const { country, thumbnailUrl, url, des, first_name ,email} = itemList;
     );
 };
 
-export default ProductsPage;
+export default SearchResult;
