@@ -5,35 +5,35 @@ import axios from 'axios';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import SearchResult from '../SearchResult/SearchResult';
 import AddNewItems from '../AddnewItems/AddNewItems';
+import { Link, NavLink } from "react-router-dom";
 const Products = () => {
     const [itemLists, setItemLists] = useState([]);
     const [filteredResults, setFilteredResults] = useState([]);
     const [searchInput, setSearchInput] = useState('');
+    const [loading, setLoading] = useState(false);
    
     useEffect(() => {
+        setLoading(true);
         axios.get(`./bigData.json`)
             .then((res) => {
                 setItemLists(res.data);
+                setLoading(false);
         })
     }, []);
-    const searchItems = (searchValue) => {
-        setSearchInput(searchValue);
-        if (searchInput !== '') {
-            const filteredData = itemLists.filter((item) => {
-                // return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
-                return item.first_name.toLowerCase().includes(searchInput.toLowerCase());
-            
+
+    useEffect(() => {
+        setFilteredResults(
+            itemLists.filter(person => {
+                return person.first_name.toLowerCase().includes(searchInput.toLowerCase())
             })
-            // console.log(filteredData);
-            setFilteredResults(filteredData);
-            // setItemLists(filteredData);
-        } 
-        else {
-            setFilteredResults(itemLists);
-        //    setItemLists(itemLists);
-        }
-    }
-   
+
+        )
+        
+    },[searchInput,itemLists])
+
+    if (loading) {
+       return <p>Loading employee....</p>
+   }
     
     return (
         <Container>
@@ -41,16 +41,20 @@ const Products = () => {
             <h2>match data length:{filteredResults.length}</h2>
             <Container  style={{position: "relative"}}   className=''>
                   <Row>
-                        <Col md={6} lg={12} sm={3} xs={12}>
+                        <Col md={8} lg={8} sm={3} xs={12}>
                              <input
                              placeholder="Search By First Name"
                              className="form-control cursor"
                             //  onChange={SearchList}
-                             onChange={(e) =>searchItems(e.target.value)}
+                             onChange={(e) =>setSearchInput(e.target.value)}
                              type="text"
                         />
 
-                        </Col>
+                    </Col>
+                    <Col md={4} lg={4} sm={3} xs={12}>
+                          <Link style={{ textDecoration: 'none', backgroundColor: 'green', padding: '10px', textAlign: 'center' }} to="/addNewItem">Add New Item</Link>
+                       
+                    </Col>
                     </Row>
             </Container>
             
@@ -60,15 +64,15 @@ const Products = () => {
                     { searchInput ?  (
                         <Container className='card-grid my-5'>
                             {
-                                itemLists ? (
+                           filteredResults ? (
                                         filteredResults.map(employee => <SearchResult
                                             employee={employee}
                                             key={employee.id}
                                                 ></SearchResult>)
-                                                )
-                                                    :
+                                                ):
+                                                
                                         (
-                                            <AddNewItems></AddNewItems>
+                                           <p>hello</p>
                 
                                         )
                                         }
@@ -90,19 +94,9 @@ const Products = () => {
                         )}
 
             </div>
-         </div> 
+            </div> 
             </Container>
-
-             {/* <Container fluid={true} className='card-grid my-5'>
-            {
-                itemLists.slice(0,30).map(itemList =>
-                    <ProductsPage
-                        itemList={itemList}
-                        key={itemList.id}
-                    ></ProductsPage>)
-                }
-             </Container> */}
-    
+            
         </Container>
     );
 };

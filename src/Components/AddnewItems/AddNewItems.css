@@ -1,0 +1,22 @@
+.add-service form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+    .add-service form input, textarea{
+        width: 38%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+
+    }
+    @media screen and (max-width: 480px) {
+   .add-service form input, textarea {
+       width:90%;
+    
+  }
+}
+
+    
